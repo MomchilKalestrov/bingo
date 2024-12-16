@@ -27,24 +27,24 @@ const generateBoard = (): board => {
 
 const Page: NextPage = () => {
     /* a reducer would work best here */
+    const numbers = React.useRef(new Set<number>()).current;
     const [ board, setBoard ] = React.useState<board>(generateBoard());
 
     const generate = () => {
-        const flatten: Set<cell> = new Set(board.flat(4));
-
         const getRandom = (start: number, end: number): number =>
             Math.floor(Math.random() * (end - start)) + start;
 
-        let random = getRandom(0, 100);
-        while (flatten.has(random))
-            random = getRandom(0, 100);
+        let random = getRandom(0, 99);
+        while (numbers.has(random))
+            random = getRandom(0, 99);
+        numbers.add(random);
 
         setBoard((b) => {
             const newBoard = b.map((column, i) =>
                 column.map((row, j) => 
                     row.map((cell, k) => {
                         if (random === i * 25 + j * 5 + k)
-                            return random;
+                            return random + 1;
                         else return cell;
                     })
                 )
