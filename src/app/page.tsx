@@ -2,10 +2,8 @@
 import React from 'react';
 import { NextPage } from 'next';
 import styles from './page.module.css';
-
-type cell = number | string;
-type segment = cell[][];
-type board = segment[];
+import type { board, segment, cell } from '@/lib/types';
+import cloneObject from '@/lib/clone';
 
 const generateBoard = (): board => {
     const board: board = [];
@@ -34,21 +32,28 @@ const Page: NextPage = () => {
         const getRandom = (start: number, end: number): number =>
             Math.floor(Math.random() * (end - start)) + start;
 
-        let random = getRandom(0, 99);
-        while (numbers.has(random))
-            random = getRandom(0, 99);
-        numbers.add(random);
+        const getNumber = (): number => {
+            let random = getRandom(0, 99);
+            
+            while (numbers.has(random))
+                random = getRandom(0, 99);
+
+            numbers.add(random);
+
+            return random;
+        }
+        
+        const index = getNumber();
 
         setBoard((b) => {
-            const newBoard = b.map((column, i) =>
-                column.map((row, j) => 
-                    row.map((cell, k) => {
-                        if (random === i * 25 + j * 5 + k)
-                            return random + 1;
-                        else return cell;
-                    })
-                )
-            );
+            const newBoard: board = cloneObject<board>(b);
+
+            const segment = Math.floor(index / 25);
+            const row = Math.floor((index % 25) / 5);
+            const column = index % 5;
+
+            newBoard[segment][row][column] = index;
+
             return newBoard;
         })
     };
