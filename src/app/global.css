@@ -20,7 +20,7 @@ button {
     height: 2.5rem;
     
     padding: 0.5rem 1rem;
-    color: #ffffff;
+    color: #fff;
     background-color: transparent;
     transition: all 0.25s;
     font-size: 1rem;
@@ -28,6 +28,6 @@ button {
 }
 
 button:hover {
-    background-color: #ffffff;
-    color: #bb2528;
+    border: 1px solid #3c9448;
+    background-color: #3c9448;
 }

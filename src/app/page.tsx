@@ -52,7 +52,7 @@ const Page: NextPage = () => {
             const row = Math.floor((index % 25) / 5);
             const column = index % 5;
 
-            newBoard[segment][row][column] = index;
+            newBoard[segment][row][column] = index + 1;
 
             return newBoard;
         })
