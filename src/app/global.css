@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+    padding: 1rem;
+    background-color: #bb2528;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    height: calc(100vh - 2rem);
+    gap: 2rem;
+}
+
+button {
+    border-radius: 1.25rem;
+    border: 1px solid #ffffff;
+    
+    width: min(100%, 10rem);
+    margin: 0px max(calc(50% - 5rem), 0px);
+    height: 2.5rem;
+    
+    padding: 0.5rem 1rem;
+    color: #ffffff;
+    background-color: transparent;
+    transition: all 0.25s;
+    font-size: 1rem;
+    line-height: 1rem;
+}
+
+button:hover {
+    background-color: #ffffff;
+    color: #bb2528;
+}
