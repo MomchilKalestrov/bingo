@@ -31,3 +31,19 @@ button:hover {
     border: 1px solid #3c9448;
     background-color: #3c9448;
 }
+
+span {
+    color: #ffffff;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    font-weight: bolder;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px calc(50% - 2rem);
+    
+    background-color: #3c9448;
+    border-radius: 2rem;
+}

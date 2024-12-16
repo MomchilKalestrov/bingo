@@ -27,6 +27,7 @@ const Page: NextPage = () => {
     /* a reducer would work best here */
     const numbers = React.useRef(new Set<number>()).current;
     const [ board, setBoard ] = React.useState<board>(generateBoard());
+    const [ last,  setLast  ] = React.useState<number | undefined>(undefined);
 
     const generate = () => {
         const getRandom = (start: number, end: number): number =>
@@ -44,6 +45,7 @@ const Page: NextPage = () => {
         }
         
         const index = getNumber();
+        setLast(index + 1);
 
         setBoard((b) => {
             const newBoard: board = cloneObject<board>(b);
@@ -60,6 +62,11 @@ const Page: NextPage = () => {
 
     return (
         <>
+            {
+                last
+                ?   <span>{ last }</span>
+                :   <span style={ { visibility: 'hidden' } } />
+            }
             <div className={ styles.Board }>
                 { board.map((column, i) => (
                     <div key={ i } className={ styles.Segments }>
