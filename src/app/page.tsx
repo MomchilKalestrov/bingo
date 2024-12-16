@@ -2,20 +2,18 @@
 import React from 'react';
 import { NextPage } from 'next';
 import styles from './page.module.css';
-import { count } from 'console';
-import { start } from 'repl';
 
 type cell = number | string;
 type segment = cell[][];
 type board = segment[];
 
 const generateBoard = (): board => {
-    let board: board = [];
+    const board: board = [];
     for (let i = 0; i < 4; i++) {
-        let column: segment = [];
+        const column: segment = [];
         
         for (let j = 0; j < 5; j++) {
-            let row: cell[] = [];
+            const row: cell[] = [];
 
             for (let k = 0; k < 5; k++)
                 row.push(' ');
