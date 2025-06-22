@@ -23,28 +23,29 @@ const generateBoard = (): board => {
     return board;
 };
 
+const shuffle = <T,>(array: T[]): T[] => {
+    array.forEach((_: T, index: number) => {
+        const randomIndex = Math.floor(Math.random() * array.length);
+        [ array[ index ], array[ randomIndex ] ] = [ array[ randomIndex ], array[ index ] ]
+    });
+    return array;
+};
+
+const useBingo = (start: number, end: number) => {
+    const numbers = React.useRef<number[]>(shuffle(Array.from({ length: end - start }, (_, i) => start + i))).current;
+    return () => numbers.pop();
+};
+
 const Page: NextPage = () => {
     /* a reducer would work best here */
-    const numbers = React.useRef(new Set<number>()).current;
+    const getNumber = useBingo(0, 100);
     const [ board, setBoard ] = React.useState<board>(generateBoard());
     const [ last,  setLast  ] = React.useState<number | undefined>(undefined);
 
     const generate = () => {
-        const getRandom = (start: number, end: number): number =>
-            Math.floor(Math.random() * (end - start)) + start;
-
-        const getNumber = (): number => {
-            let random = getRandom(0, 99);
-            
-            while (numbers.has(random))
-                random = getRandom(0, 99);
-
-            numbers.add(random);
-
-            return random;
-        }
-        
         const index = getNumber();
+        if (index === undefined) return;
+
         setLast(index + 1);
 
         setBoard((b) => {
