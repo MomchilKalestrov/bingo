@@ -33,3 +33,53 @@
     font-size: 1.25rem;
     line-height: 1.25rem;
 }
+
+.Main {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+    padding: 1rem;
+    background-color: #bb2528;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    height: calc(100vh - 2rem);
+    gap: 2rem;
+}
+
+.Main button {
+    border-radius: 1.25rem;
+    border: 1px solid #ffffff;
+    
+    width: min(100%, 10rem);
+    margin: 0px max(calc(50% - 5rem), 0px);
+    height: 2.5rem;
+    
+    padding: 0.5rem 1rem;
+    color: #fff;
+    background-color: transparent;
+    transition: all 0.25s;
+    font-size: 1rem;
+    line-height: 1rem;
+}
+
+.Main button:hover {
+    border: 1px solid #3c9448;
+    background-color: #3c9448;
+}
+
+.Main span {
+    color: #ffffff;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    font-weight: bolder;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px calc(50% - 2rem);
+    
+    background-color: #3c9448;
+    border-radius: 2rem;
+}
