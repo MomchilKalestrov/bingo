@@ -2,13 +2,17 @@
 import React from "react";
 import { NextPage } from "next";
 import type { board } from "@/lib/types";
-import { generateBoard } from "@/lib/utils";
+import { generateBoard, shuffle } from "@/lib/utils";
 import styles from "./page.module.css";
+import { notFound } from "next/navigation";
 
 const toIndex = (segment: number, row: number, column: number) =>
     segment * 25 + row * 5 + column;
 
 const Page: NextPage = () => {
+    if (process.env.NEXT_PUBLIC_INCLUDE_ADMINISTRATOR !== 'true')
+        return notFound();
+
     const [ override, setOverride ] = React.useState<Set<number>>(new Set());
     const [ gameId,   setGameId   ] = React.useState<string | null>(null);
     const [ games,    setGames    ] = React.useState<string[]>([]);
@@ -17,7 +21,7 @@ const Page: NextPage = () => {
     const [ ws,       setWs       ] = React.useState<WebSocket | null>(null);
     
     const onSocketMessage = React.useCallback((event: MessageEvent) => {
-        let { from, payload } = JSON.parse(event.data);
+        const { from, payload } = JSON.parse(event.data);
         console.log(payload);
         if (from === 'authority' && Array.isArray(payload))
             setGames(payload);
@@ -39,7 +43,7 @@ const Page: NextPage = () => {
                 
                 return newBoard;
             });
-    }, [ ws, gameId ]);
+    }, [ gameId, setBoard, setGames, setNext ]);
 
     const refreshBoard = React.useCallback(() => {
         if (!ws || !gameId) return;
@@ -84,7 +88,7 @@ const Page: NextPage = () => {
             to: gameId,
             payload: {
                 type: 'overrideQueue',
-                data: Array.from(override)
+                data: shuffle(Array.from(override))
             }
         }));
     }, [ ws, gameId, override ]);
@@ -141,22 +145,9 @@ const Page: NextPage = () => {
                         </div>
                     )) }
                 </div>
-                <div style={ {
-                    display: 'flex',
-                    gap: '0.5rem',
-                    flexWrap: 'wrap'
-                } }>
+                <div className={ styles.Queue }>
                     { next && next.slice(next.length - 5).reverse().map((value, index) => (
-                        <div style={ {
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '2rem',
-                            height: '2rem',
-                            backgroundColor: index === 0 ? 'lightblue' : 'lightgray',
-                        } }>
-                            { value + 1 }
-                        </div>
+                        <div data-index={ index } key={ index }>{ value + 1 }</div>
                     )) }
                 </div>
             </div>
