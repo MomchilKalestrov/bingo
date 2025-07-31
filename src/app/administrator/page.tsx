@@ -4,21 +4,24 @@ import { NextPage } from "next";
 import type { board } from "@/lib/types";
 import { generateBoard, shuffle } from "@/lib/utils";
 import styles from "./page.module.css";
-import { notFound } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const toIndex = (segment: number, row: number, column: number) =>
     segment * 25 + row * 5 + column;
 
 const Page: NextPage = () => {
-    if (process.env.NEXT_PUBLIC_INCLUDE_ADMINISTRATOR !== 'true')
-        return notFound();
-
+    const router = useRouter()
     const [ override, setOverride ] = React.useState<Set<number>>(new Set());
     const [ gameId,   setGameId   ] = React.useState<string | null>(null);
     const [ games,    setGames    ] = React.useState<string[]>([]);
     const [ board,    setBoard    ] = React.useState<board>(generateBoard());
     const [ next,     setNext     ] = React.useState<number[] | null>(null);
     const [ ws,       setWs       ] = React.useState<WebSocket | null>(null);
+
+    React.useEffect(() => {
+        if (process.env.NEXT_PUBLIC_INCLUDE_ADMINISTRATOR !== 'true')
+            router.push('/');
+    }, [ router, process.env.NEXT_PUBLIC_INCLUDE_ADMINISTRATOR ]);
     
     const onSocketMessage = React.useCallback((event: MessageEvent) => {
         const { from, payload } = JSON.parse(event.data);

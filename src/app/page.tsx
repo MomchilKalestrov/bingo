@@ -27,9 +27,8 @@ const useBingo = (start: number, end: number) => {
     }, [ numbers, setNumbers ]);
 
     const getNumber = React.useCallback(() => {
-        let poppedNumber: number | undefined;
         const newNumbers = [ ...numbers ];
-        poppedNumber = newNumbers.pop();
+        const poppedNumber: number | undefined = newNumbers.pop();
         setNumbers(newNumbers);
         return poppedNumber;
     }, [ numbers, setNumbers ]);
